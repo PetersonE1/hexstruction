@@ -24,11 +24,14 @@ import net.minecraft.world.item.context.DirectionalPlaceContext
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
 import net.minecraft.world.phys.Vec3
+import org.agent.hexstruction.StructureIota
 import org.agent.hexstruction.StructureManager
 import org.agent.hexstruction.Utils
 import org.agent.hexstruction.getStructureNBT
 import org.agent.hexstruction.getStructureSettings
 import org.agent.hexstruction.getStructureUUID
+import org.agent.hexstruction.misc.ExtendedStructurePlaceSettings
+import org.agent.hexstruction.misc.FilterableStructureTemplate
 import java.util.UUID
 
 // todo: claim integration (maybe done?)
@@ -66,13 +69,8 @@ object OpLoadStructure : SpellAction {
             val worldState = env.world.getBlockState(pos)
             if (!worldState.canBeReplaced(placeContext))
                 throw MishapBadBlock.of(pos, "replaceable")
-            if (!IXplatAbstractions.INSTANCE.isPlacingAllowed(
-                env.world,
-                pos,
-                ItemStack.EMPTY,
-                env.castingEntity as? ServerPlayer
-            ))
-                throw MishapBadBlock.of(pos, "permission to place")
+            !env.canEditBlockAt(pos)
+                throw MishapBadLocation(pos.center, "forbidden")
         }
 
         return SpellAction.Result(
@@ -82,7 +80,7 @@ object OpLoadStructure : SpellAction {
         )
     }
 
-    private data class Spell(val structure: StructureTemplate, val settings: StructurePlaceSettings, val origin: BlockPos, val uuid: UUID) : RenderedSpell {
+    private data class Spell(val structure: StructureTemplate, val settings: ExtendedStructurePlaceSettings, val origin: BlockPos, val uuid: UUID) : RenderedSpell {
         override fun cast(env: CastingEnvironment) {
             structure.placeInWorld(env.world, origin, origin, settings, env.world.random, Block.UPDATE_CLIENTS)
 

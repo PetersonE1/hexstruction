@@ -12,6 +12,7 @@ import org.agent.hexstruction.patterns.OpGetTransformations
 import org.agent.hexstruction.patterns.OpLoadStructure
 import org.agent.hexstruction.patterns.OpMirrorFrontBack
 import org.agent.hexstruction.patterns.OpMirrorLeftRight
+import org.agent.hexstruction.patterns.OpMirrorVertical
 import org.agent.hexstruction.patterns.OpRotateClockwise
 import org.agent.hexstruction.patterns.OpRotateCounterClockwise
 import org.agent.hexstruction.patterns.OpSaveStructure
@@ -21,14 +22,18 @@ object HexstructionActions : HexstructionRegistrar<ActionRegistryEntry>(
     { HexActions.REGISTRY },
 ) {
     val SAVE_STRUCTURE = make("save_structure", HexDir.WEST, "dqeqdwdqeqd", OpSaveStructure)
-    val LOAD_STRUCTURE = make("load_structure", HexDir.EAST, "aeqeawaeqea", OpLoadStructure);
-    val MIRROR_LEFT_RIGHT = make("mirror_left_right", HexDir.EAST, "aeqeawaeqeaaewq", OpMirrorLeftRight);
-    val MIRROR_FRONT_BACK = make("mirror_front_back", HexDir.EAST, "aeqeawaeqeaqqwe", OpMirrorFrontBack);
-    val ROTATE_CLOCKWISE = make("rotate_clockwise", HexDir.EAST, "aeqeawaeqeaaede", OpRotateClockwise);
-    val ROTATE_COUNTERCLOCKWISE = make("rotate_counterclockwise", HexDir.EAST, "aeqeawaeqeaqqaq",OpRotateCounterClockwise);
-    val DISPLAYS_STRUCTURE = make("display_structure", HexDir.EAST, "aeqeawaeqeaqed", OpDisplayStructure);
-    val BOUNDING_BOX = make("bounding_box", HexDir.EAST, "aeqeawaeqeaqqeqaqeq", OpGetBoundingBox);
-    val TRANSFORMATIONS = make("transformations", HexDir.EAST, "aeqeawaeqeaaee", OpGetTransformations);
+    val LOAD_STRUCTURE = make("load_structure", HexDir.EAST, "aeqeawaeqea", OpLoadStructure)
+    val DISPLAY_STRUCTURE = make("display_structure", HexDir.EAST, "aeqeawaeqeaqed", OpDisplayStructure)
+
+    val MIRROR_LEFT_RIGHT = make("mirror_left_right", HexDir.EAST, "aeqeawaeqeaaewq", OpMirrorLeftRight)
+    val MIRROR_FRONT_BACK = make("mirror_front_back", HexDir.EAST, "aeqeawaeqeaqqwe", OpMirrorFrontBack)
+    val MIRROR_VERTICAL = make("mirror_vertical", HexDir.EAST, "eawaeqeawaeaw", OpMirrorVertical)
+
+    val ROTATE_CLOCKWISE = make("rotate_clockwise", HexDir.EAST, "aeqeawaeqeaaede", OpRotateClockwise)
+    val ROTATE_COUNTERCLOCKWISE = make("rotate_counterclockwise", HexDir.EAST, "aeqeawaeqeaqqaq",OpRotateCounterClockwise)
+
+    val BOUNDING_BOX = make("bounding_box", HexDir.EAST, "aeqeawaeqeaqqeqaqeq", OpGetBoundingBox)
+    val TRANSFORMATIONS = make("transformations", HexDir.EAST, "aeqeawaeqeaaee", OpGetTransformations)
 
     private fun make(name: String, startDir: HexDir, signature: String, action: Action) =
         make(name, startDir, signature) { action }

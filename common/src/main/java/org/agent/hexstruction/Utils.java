@@ -26,6 +26,7 @@ public final class Utils {
         return new Vec3i(x,y,z);
     }
 
+    // todo: make a kotlin function that just asserts every corner
     public static Pair<Boolean, Vec3> CheckAmbitFromBoundingBox(BoundingBox bb, CastingEnvironment env) {
          for (int i : new int[]{bb.minX(), bb.maxX()})
             for (int j : new int[]{bb.minY(), bb.maxY()})
