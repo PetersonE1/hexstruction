@@ -14,7 +14,11 @@ import org.agent.hexstruction.patterns.OpMirrorFrontBack
 import org.agent.hexstruction.patterns.OpMirrorLeftRight
 import org.agent.hexstruction.patterns.OpMirrorVertical
 import org.agent.hexstruction.patterns.OpRotateClockwise
+import org.agent.hexstruction.patterns.OpRotateClockwiseX
+import org.agent.hexstruction.patterns.OpRotateClockwiseZ
 import org.agent.hexstruction.patterns.OpRotateCounterClockwise
+import org.agent.hexstruction.patterns.OpRotateCounterClockwiseX
+import org.agent.hexstruction.patterns.OpRotateCounterClockwiseZ
 import org.agent.hexstruction.patterns.OpSaveStructure
 
 object HexstructionActions : HexstructionRegistrar<ActionRegistryEntry>(
@@ -31,6 +35,10 @@ object HexstructionActions : HexstructionRegistrar<ActionRegistryEntry>(
 
     val ROTATE_CLOCKWISE = make("rotate_clockwise", HexDir.EAST, "aeqeawaeqeaaede", OpRotateClockwise)
     val ROTATE_COUNTERCLOCKWISE = make("rotate_counterclockwise", HexDir.EAST, "aeqeawaeqeaqqaq",OpRotateCounterClockwise)
+    val ROTATE_CLOCKWISE_X = make("rotate_clockwise_x", HexDir.EAST, "aeqeawaeqeaeedd", OpRotateClockwiseX)
+    val ROTATE_COUNTERCLOCKWISE_X = make("rotate_counterclockwise_x", HexDir.EAST, "aeqeawaeqeadqaa", OpRotateCounterClockwiseX)
+    val ROTATE_CLOCKWISE_Z = make("rotate_clockwise_z", HexDir.EAST, "aeqeawaeqeaeed", OpRotateClockwiseZ)
+    val ROTATE_COUNTERCLOCKWISE_Z = make("rotate_counterclockwise_z", HexDir.EAST, "aeqeawaeqeadqa", OpRotateCounterClockwiseZ)
 
     val BOUNDING_BOX = make("bounding_box", HexDir.EAST, "aeqeawaeqeaqqeqaqeq", OpGetBoundingBox)
     val TRANSFORMATIONS = make("transformations", HexDir.EAST, "aeqeawaeqeaaee", OpGetTransformations)

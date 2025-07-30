@@ -47,11 +47,7 @@ object OpDisplayStructure : SpellAction {
             val pos = FilterableStructureTemplate.calculateRelativePosition(settings, block.pos).offset(origin)
             particles.add(ParticleSpray.burst(pos.center, 1.0))
 
-            val placeContext = DirectionalPlaceContext(env.world, pos, Direction.DOWN, ItemStack.EMPTY, Direction.UP)
-            val worldState = env.world.getBlockState(pos)
-            env.assertPosInRangeForEditing(pos)
-            if (!worldState.canBeReplaced(placeContext))
-                throw MishapBadBlock.of(pos, "replaceable")
+            env.assertPosInRange(pos)
         }
 
         return SpellAction.Result(

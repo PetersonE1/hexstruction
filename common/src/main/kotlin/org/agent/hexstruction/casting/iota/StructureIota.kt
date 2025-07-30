@@ -86,7 +86,7 @@ class StructureIota(structureUUID: UUID, val settings: ExtendedStructurePlaceSet
                     val text1 = "hexstruction.iota.structure.identifier".asTranslatedComponent(uuid.toString().substring(0, 8))
                         .withStyle(Style.EMPTY.withFont(ResourceLocation("minecraft:illageralt")))
                     val text2 = "hexstruction.iota.structure.display"
-                        .asTranslatedComponent(mirror, verticalMirror, rotation, rotationX, rotationZ)
+                        .asTranslatedComponent(mirror, verticalMirror, rotationX, rotation, rotationZ)
                         .withStyle(Style.EMPTY.withFont(Style.DEFAULT_FONT)).darkGreen
                     return text1.append(text2)
                 }

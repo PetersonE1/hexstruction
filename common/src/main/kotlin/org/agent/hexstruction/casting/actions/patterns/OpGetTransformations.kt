@@ -16,8 +16,8 @@ object OpGetTransformations: ConstMediaAction {
         return listOf(ListIota(listOf(
             DoubleIota(settings.mirror.ordinal.toDouble()),
             DoubleIota(if (settings.verticalMirror) 1.0 else 0.0),
-            DoubleIota(settings.rotation.ordinal.toDouble()),
             DoubleIota(settings.rotationX.ordinal.toDouble()),
+            DoubleIota(settings.rotation.ordinal.toDouble()),
             DoubleIota(settings.rotationZ.ordinal.toDouble())
             )))
     }

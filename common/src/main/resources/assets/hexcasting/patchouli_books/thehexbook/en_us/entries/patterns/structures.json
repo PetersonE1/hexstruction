@@ -31,6 +31,14 @@
     },
     {
       "type": "hexcasting:pattern",
+      "op_id": "hexstruction:mirror_vertical",
+      "anchor": "hexstruction:mirror_vertical",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.mirror_vertical"
+    },
+    {
+      "type": "hexcasting:pattern",
       "op_id": "hexstruction:rotate_clockwise",
       "anchor": "hexstruction:rotate_clockwise",
       "input": "structure",
@@ -47,6 +55,38 @@
     },
     {
       "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_clockwise_x",
+      "anchor": "hexstruction:rotate_clockwise_x",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_clockwise_x"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_counterclockwise_x",
+      "anchor": "hexstruction:rotate_counterclockwise_x",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_counterclockwise_x"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_clockwise_z",
+      "anchor": "hexstruction:rotate_clockwise_z",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_clockwise_z"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_counterclockwise_z",
+      "anchor": "hexstruction:rotate_counterclockwise_z",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_counterclockwise_z"
+    },
+    {
+      "type": "hexcasting:pattern",
       "op_id": "hexstruction:bounding_box",
       "anchor": "hexstruction:bounding_box",
       "input": "structure",
@@ -60,6 +100,10 @@
       "input": "structure",
       "output": "[number]",
       "text": "hexstruction.book.patterns.actions.structures.transformations"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "hexstruction.book.patterns.actions.structures.transformations.0"
     }
   ]
 }
