@@ -12,33 +12,29 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
 import net.minecraft.world.phys.Vec3
 import org.agent.hexstruction.StructureIota
 import org.agent.hexstruction.StructureManager
-import org.agent.hexstruction.Utils
 import org.agent.hexstruction.misc.ExtendedStructurePlaceSettings
 import org.agent.hexstruction.misc.FilterableStructureTemplate
 import org.agent.hexstruction.tags.HexstructionBlockTags
 import java.util.UUID
 
-// todo: claim integration (maybe done?)
 // origin of structures is lower north-west
 object OpSaveStructure : SpellAction {
     override val argc = 2
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
-        val LSW_bound = Utils.GetVec3i((args.getVec3(0, argc)))
-        val UNE_bound = Utils.GetVec3i((args.getVec3(1, argc)))
+        val LSW_bound = getVec3i((args.getVec3(0, argc)))
+        val UNE_bound = getVec3i((args.getVec3(1, argc)))
 
         val bb = BoundingBox.fromCorners(LSW_bound, UNE_bound)
 
-        val result = Utils.CheckAmbitFromBoundingBox(bb, env)
-        if (!result.first)
-            throw MishapBadLocation(result.second)
+        assertAmbitFromBoundingBox(bb, env)
 
         val costs = arrayOf(0)
 
@@ -47,6 +43,19 @@ object OpSaveStructure : SpellAction {
             costs[0] * (MediaConstants.DUST_UNIT / 8),
             listOf(ParticleSpray.burst(Vec3.atCenterOf(bb.center), 1.0))
         )
+    }
+
+    private fun assertAmbitFromBoundingBox(
+        bb: BoundingBox,
+        env: CastingEnvironment
+    ) {
+        for (x in bb.minX()..bb.maxX()) {
+            for (y in bb.minY()..bb.maxY()) {
+                for (z in bb.minZ()..bb.maxZ()) {
+                    env.assertPosInRangeForEditing(BlockPos(x, y, z))
+                }
+            }
+        }
     }
 
     private data class Spell(val bb: BoundingBox, val argc: Int, val costs: Array<Int>) : RenderedSpell {
@@ -76,7 +85,7 @@ object OpSaveStructure : SpellAction {
                 }
             }
             this.uuid = StructureManager.SaveStructure(env.world, structure)
-            costs[0] = Utils.GetBlockCount(StructureManager.GetStructure(env.world, uuid))
+            costs[0] = structure.palettes[0].blocks().size
         }
 
         override fun cast(env: CastingEnvironment, image: CastingImage): CastingImage? {
@@ -104,4 +113,8 @@ object OpSaveStructure : SpellAction {
             return true
         }
     }
+}
+
+fun getVec3i(vec: Vec3): Vec3i {
+    return Vec3i(vec.x.toInt(), vec.y.toInt(), vec.z.toInt())
 }

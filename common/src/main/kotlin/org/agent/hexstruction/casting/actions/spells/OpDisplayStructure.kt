@@ -7,22 +7,25 @@ import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.getBlockPos
 import at.petrak.hexcasting.api.casting.getDoubleBetween
 import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadBlock
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadLocation
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.utils.asCompound
 import at.petrak.hexcasting.api.utils.asInt
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.DirectionalPlaceContext
 import net.minecraft.world.level.block.Mirror
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate
 import net.minecraft.world.phys.Vec3
-import org.agent.hexstruction.Utils
 import org.agent.hexstruction.getStructureNBT
 import org.agent.hexstruction.getStructureSettings
 import org.agent.hexstruction.misc.ExtendedStructurePlaceSettings
@@ -41,15 +44,23 @@ object OpDisplayStructure : SpellAction {
         val structure = FilterableStructureTemplate()
         structure.load(env.world.holderLookup(Registries.BLOCK), structureNBT)
 
-        val bb = structure.getBoundingBox(settings, origin)
-        val result = Utils.CheckAmbitFromBoundingBox(bb, env)
-        if (!result.first)
-            throw MishapBadLocation(result.second)
+        val particles = mutableListOf<ParticleSpray>()
+        val blocks = structure.palettes[0].blocks()
+        for (block in blocks) {
+            val pos = FilterableStructureTemplate.calculateRelativePosition(settings, block.pos).offset(origin)
+            particles.add(ParticleSpray.burst(pos.center, 1.0))
+
+            val placeContext = DirectionalPlaceContext(env.world, pos, Direction.DOWN, ItemStack.EMPTY, Direction.UP)
+            val worldState = env.world.getBlockState(pos)
+            env.assertPosInRangeForEditing(pos)
+            if (!worldState.canBeReplaced(placeContext))
+                throw MishapBadBlock.of(pos, "replaceable")
+        }
 
         return SpellAction.Result(
             Spell(structure, settings, origin, structureNBT, (args.getDoubleBetween(2, 0.0, 72000.0, argc))),
-            Utils.GetBlockCount(structureNBT) * (MediaConstants.DUST_UNIT / 100),
-            listOf(ParticleSpray.burst(Vec3.atCenterOf(bb.center), 1.0))
+            blocks.size * (MediaConstants.DUST_UNIT / 100),
+            particles
         )
     }
 
