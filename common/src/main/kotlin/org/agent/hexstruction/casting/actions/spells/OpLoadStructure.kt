@@ -45,10 +45,10 @@ object OpLoadStructure : SpellAction {
         val settings = args.getStructureSettings(1, argc)
         val uuid = args.getStructureUUID(1, argc)
 
-        val structure = StructureTemplate()
+        val structure = FilterableStructureTemplate()
         structure.load(env.world.holderLookup(Registries.BLOCK), structureNBT)
 
-        origin = structure.getZeroPositionWithTransform(origin, settings.mirror, settings.rotation)
+        origin = structure.getZeroPositionWithTransform(origin, settings.mirror, settings.verticalMirror, settings.rotation, settings.rotationX, settings.rotationZ)
 
         val bb = structure.getBoundingBox(settings, origin)
         val result = Utils.CheckAmbitFromBoundingBox(bb, env)
@@ -69,8 +69,7 @@ object OpLoadStructure : SpellAction {
             val worldState = env.world.getBlockState(pos)
             if (!worldState.canBeReplaced(placeContext))
                 throw MishapBadBlock.of(pos, "replaceable")
-            !env.canEditBlockAt(pos)
-                throw MishapBadLocation(pos.center, "forbidden")
+            env.assertPosInRangeForEditing(pos)
         }
 
         return SpellAction.Result(
@@ -80,7 +79,7 @@ object OpLoadStructure : SpellAction {
         )
     }
 
-    private data class Spell(val structure: StructureTemplate, val settings: ExtendedStructurePlaceSettings, val origin: BlockPos, val uuid: UUID) : RenderedSpell {
+    private data class Spell(val structure: FilterableStructureTemplate, val settings: ExtendedStructurePlaceSettings, val origin: BlockPos, val uuid: UUID) : RenderedSpell {
         override fun cast(env: CastingEnvironment) {
             structure.placeInWorld(env.world, origin, origin, settings, env.world.random, Block.UPDATE_CLIENTS)
 

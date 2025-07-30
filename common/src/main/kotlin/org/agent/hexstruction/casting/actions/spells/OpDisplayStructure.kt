@@ -25,6 +25,8 @@ import net.minecraft.world.phys.Vec3
 import org.agent.hexstruction.Utils
 import org.agent.hexstruction.getStructureNBT
 import org.agent.hexstruction.getStructureSettings
+import org.agent.hexstruction.misc.ExtendedStructurePlaceSettings
+import org.agent.hexstruction.misc.FilterableStructureTemplate
 import org.agent.hexstruction.misc.TimedBlockDisplay
 
 object OpDisplayStructure : SpellAction {
@@ -36,7 +38,7 @@ object OpDisplayStructure : SpellAction {
         val structureNBT = args.getStructureNBT(1, argc, env.world)
         val settings = args.getStructureSettings(1, argc)
 
-        val structure = StructureTemplate()
+        val structure = FilterableStructureTemplate()
         structure.load(env.world.holderLookup(Registries.BLOCK), structureNBT)
 
         val bb = structure.getBoundingBox(settings, origin)
@@ -51,9 +53,9 @@ object OpDisplayStructure : SpellAction {
         )
     }
 
-    private data class Spell(val structure: StructureTemplate, val settings: StructurePlaceSettings, val origin: BlockPos, val structureNBT: CompoundTag, val lifeTime: Double) : RenderedSpell {
+    private data class Spell(val structure: FilterableStructureTemplate, val settings: ExtendedStructurePlaceSettings, val origin: BlockPos, val structureNBT: CompoundTag, val lifeTime: Double) : RenderedSpell {
         override fun cast(env: CastingEnvironment) {
-            val newOrigin = structure.getZeroPositionWithTransform(origin, settings.mirror, settings.rotation)
+            val newOrigin = structure.getZeroPositionWithTransform(origin, settings.mirror, settings.verticalMirror, settings.rotation, settings.rotationX, settings.rotationZ)
 
             val palette = structureNBT.getList("palette", 10)
             val blocks = structureNBT.getList("blocks", 10)

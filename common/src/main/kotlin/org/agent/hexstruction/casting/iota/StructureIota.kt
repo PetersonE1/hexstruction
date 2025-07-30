@@ -95,16 +95,5 @@ class StructureIota(structureUUID: UUID, val settings: ExtendedStructurePlaceSet
 
             override fun color() = 0x118840
         }
-
-        fun mirrorVertical(structureNBT: CompoundTag) {
-            val blocks = structureNBT.getList("blocks", 10)
-
-            val maxY = getBoundingBox(structureNBT).maxY()
-
-            for (tag in blocks) {
-                val pos = tag.asCompound.get("pos")!!.asList
-                pos[1] = IntTag.valueOf(pos[1].asInt * -1 + maxY)
-            }
-        }
     }
 }
