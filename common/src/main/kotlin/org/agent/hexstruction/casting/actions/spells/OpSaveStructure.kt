@@ -116,5 +116,17 @@ object OpSaveStructure : SpellAction {
 }
 
 fun getVec3i(vec: Vec3): Vec3i {
-    return Vec3i(vec.x.toInt(), vec.y.toInt(), vec.z.toInt())
+    var x = vec.x.toInt()
+    if (x < 0)
+        x--
+
+    var y = vec.y.toInt()
+    if (y < 0)
+        y--
+
+    var z = vec.z.toInt()
+    if (z < 0)
+        z--
+
+    return Vec3i(x, y, z)
 }
