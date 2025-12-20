@@ -26,8 +26,8 @@
           rotate_counterclockwise: "Rotation Prfn. CCW Y",
           rotate_clockwise_x: "Rotation Prfn. CW X",
           rotate_counterclockwise_x: "Rotation Prfn. CCW X",
-          rotate_clockwise_z: "Rotation Prfn. CW X",
-          rotate_counterclockwise_z: "Rotation Prfn. CCW X",
+          rotate_clockwise_z: "Rotation Prfn. CW Z",
+          rotate_counterclockwise_z: "Rotation Prfn. CCW Z",
           bounding_box: "Bounding Prfn.",
           transformations: "Transformation Prfn."
         }

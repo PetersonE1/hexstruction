@@ -254,6 +254,8 @@ public class FilterableStructureTemplate extends StructureTemplate {
         int zOffset = offset.getZ();
         int yOffset = offset.getY();
 
+        System.out.println(xOffset + " " + yOffset + " " + zOffset);
+
         BlockPos newPos = targetPos;
 
         switch (rotationX) {
@@ -277,8 +279,8 @@ public class FilterableStructureTemplate extends StructureTemplate {
         y = newPos.getY();
         z = newPos.getZ();
         switch (rotationZ) {
-            case COUNTERCLOCKWISE_90 -> newPos = new BlockPos(xOffset - yOffset + y, xOffset + yOffset - x, z);
-            case CLOCKWISE_90 -> newPos = new BlockPos(xOffset + yOffset - z, yOffset - xOffset + x, z);
+            case COUNTERCLOCKWISE_90 -> newPos = new BlockPos(xOffset + yOffset - y, yOffset - xOffset + x, z);
+            case CLOCKWISE_90 -> newPos = new BlockPos(xOffset - yOffset + y, xOffset + yOffset - x, z);
             case CLOCKWISE_180 -> newPos = new BlockPos(xOffset * 2 - x, yOffset * 2 - y, z);
             default -> newPos = has_mirror ? new BlockPos(x, y, z) : newPos;
         }
@@ -291,120 +293,17 @@ public class FilterableStructureTemplate extends StructureTemplate {
         return getZeroPositionWithTransform(targetPos, mirror, verticalMirror, rotationY, rotationX, rotationZ, size.getX(), size.getZ(), size.getY());
     }
 
+
     public static BlockPos getZeroPositionWithTransform(BlockPos pos, Mirror mirror, boolean verticalMirror, Rotation rotationY, Rotation rotationX, Rotation rotationZ, int sizeX, int sizeZ, int sizeY) {
         --sizeX;
         --sizeY;
         --sizeZ;
-        int x = mirror == Mirror.FRONT_BACK ? sizeX : 0;
-        int y = verticalMirror ? sizeY : 0;
-        int z = mirror == Mirror.LEFT_RIGHT ? sizeZ : 0;
-
-        /*switch (rotationX) {
-            case COUNTERCLOCKWISE_90 -> switch (rotationY) {
-                case COUNTERCLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_180 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case NONE -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-            };
-            case CLOCKWISE_90 -> switch (rotationY) {
-                case COUNTERCLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_180 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case NONE -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-            };
-            case CLOCKWISE_180 -> switch (rotationY) {
-                case COUNTERCLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_180 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case NONE -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-            };
-            case NONE -> switch (rotationY) {
-                case COUNTERCLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_90 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case CLOCKWISE_180 -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-                case NONE -> switch (rotationZ) {
-                    case COUNTERCLOCKWISE_90 -> ;
-                    case CLOCKWISE_90 -> ;
-                    case CLOCKWISE_180 -> ;
-                    case NONE -> ;
-                };
-            };
-        }*/
+        int xOrigin = mirror == Mirror.FRONT_BACK ? sizeX : 0;
+        int yOrigin = verticalMirror ? sizeY : 0;
+        int zOrigin = mirror == Mirror.LEFT_RIGHT ? sizeZ : 0;
+        int sizeXOrNone = sizeX - xOrigin;
+        int sizeYOrNone = sizeY - yOrigin;
+        int sizeZOrNone = sizeZ - zOrigin;
 
         int offsetX = 0;
         int offsetY = 0;
@@ -412,61 +311,61 @@ public class FilterableStructureTemplate extends StructureTemplate {
 
         switch (rotationX) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetY += z;
-                offsetZ += sizeY - y;
+                offsetY += zOrigin;
+                offsetZ += sizeYOrNone;
             }
             case CLOCKWISE_90 -> {
-                offsetY += sizeZ - z;
-                offsetZ += y;
+                offsetY += sizeZOrNone;
+                offsetZ += yOrigin;
             }
             case CLOCKWISE_180 -> {
-                offsetY += sizeY - y;
-                offsetZ += sizeZ - z;
+                offsetY += sizeYOrNone;
+                offsetZ += sizeZOrNone;
             }
             case NONE -> {
-                offsetY += y;
-                offsetZ += z;
+                offsetY += yOrigin;
+                offsetZ += zOrigin;
             }
         }
 
         switch (rotationY) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetX += z;
-                offsetZ += sizeX - x;
+                offsetX += zOrigin;
+                offsetZ += sizeXOrNone;
             }
             case CLOCKWISE_90 -> {
-                offsetX += sizeZ - z;
-                offsetZ += x;
+                offsetX += sizeZOrNone;
+                offsetZ += xOrigin;
             }
             case CLOCKWISE_180 -> {
-                offsetX += sizeX - x;
-                offsetZ += sizeZ - z;
+                offsetX += sizeXOrNone;
+                offsetZ += sizeZOrNone;
             }
             case NONE -> {
-                offsetX += x;
-                offsetZ += z;
+                offsetX += xOrigin;
+                offsetZ += zOrigin;
             }
         }
 
         switch (rotationZ) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetX += y;
-                offsetY += sizeX - x;
+                offsetX += sizeYOrNone;
+                offsetY += xOrigin;
             }
             case CLOCKWISE_90 -> {
-                offsetX += sizeY - z;
-                offsetY += x;
+                offsetX += yOrigin;
+                offsetY += sizeXOrNone;
             }
             case CLOCKWISE_180 -> {
-                offsetX += sizeX - x;
-                offsetY += sizeY - y;
+                offsetX += sizeXOrNone;
+                offsetY += sizeYOrNone;
             }
             case NONE -> {
-                offsetX += x;
-                offsetY += y;
+                offsetX += xOrigin;
+                offsetY += yOrigin;
             }
         }
 
-        return pos.offset(offsetX / 2, offsetY / 2, offsetZ / 2);
+        return pos.offset(offsetX, offsetY, offsetZ);
     }
 }
