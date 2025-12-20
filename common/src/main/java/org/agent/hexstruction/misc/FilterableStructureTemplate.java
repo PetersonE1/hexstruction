@@ -254,8 +254,6 @@ public class FilterableStructureTemplate extends StructureTemplate {
         int zOffset = offset.getZ();
         int yOffset = offset.getY();
 
-        System.out.println(xOffset + " " + yOffset + " " + zOffset);
-
         BlockPos newPos = targetPos;
 
         switch (rotationX) {
@@ -309,60 +307,82 @@ public class FilterableStructureTemplate extends StructureTemplate {
         int offsetY = 0;
         int offsetZ = 0;
 
+        int xDir = 1;
+        int yDir = 1;
+        int zDir = 1;
+
         switch (rotationX) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetY += zOrigin;
-                offsetZ += sizeYOrNone;
+                offsetY += zOrigin * yDir;
+                offsetZ += sizeYOrNone * zDir;
+                yDir = -yDir;
+                zDir = -zDir;
             }
             case CLOCKWISE_90 -> {
-                offsetY += sizeZOrNone;
-                offsetZ += yOrigin;
+                offsetY += sizeZOrNone * yDir;
+                offsetZ += yOrigin * zDir;
+                yDir = -yDir;
+                zDir = -zDir;
             }
             case CLOCKWISE_180 -> {
-                offsetY += sizeYOrNone;
-                offsetZ += sizeZOrNone;
+                offsetY += sizeYOrNone * yDir;
+                offsetZ += sizeZOrNone * zDir;
+                yDir = -yDir;
+                zDir = -zDir;
             }
             case NONE -> {
-                offsetY += yOrigin;
-                offsetZ += zOrigin;
+                offsetY += yOrigin * yDir;
+                offsetZ += zOrigin * zDir;
             }
         }
 
         switch (rotationY) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetX += zOrigin;
-                offsetZ += sizeXOrNone;
+                offsetX += zOrigin * xDir;
+                offsetZ += sizeXOrNone * zDir;
+                xDir = -xDir;
+                zDir = -zDir;
             }
             case CLOCKWISE_90 -> {
-                offsetX += sizeZOrNone;
-                offsetZ += xOrigin;
+                offsetX += sizeZOrNone * xDir;
+                offsetZ += xOrigin * zDir;
+                xDir = -xDir;
+                zDir = -zDir;
             }
             case CLOCKWISE_180 -> {
-                offsetX += sizeXOrNone;
-                offsetZ += sizeZOrNone;
+                offsetX += sizeXOrNone * xDir;
+                offsetZ += sizeZOrNone * zDir;
+                xDir = -xDir;
+                zDir = -zDir;
             }
             case NONE -> {
-                offsetX += xOrigin;
-                offsetZ += zOrigin;
+                offsetX += xOrigin * xDir;
+                offsetZ += zOrigin * zDir;
             }
         }
 
         switch (rotationZ) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetX += sizeYOrNone;
-                offsetY += xOrigin;
+                offsetX += sizeYOrNone * xDir;
+                offsetY += xOrigin * yDir;
+                xDir = -xDir;
+                yDir = -yDir;
             }
             case CLOCKWISE_90 -> {
-                offsetX += yOrigin;
-                offsetY += sizeXOrNone;
+                offsetX += yOrigin * xDir;
+                offsetY += sizeXOrNone * yDir;
+                xDir = -xDir;
+                yDir = -yDir;
             }
             case CLOCKWISE_180 -> {
-                offsetX += sizeXOrNone;
-                offsetY += sizeYOrNone;
+                offsetX += sizeXOrNone * xDir;
+                offsetY += sizeYOrNone * yDir;
+                xDir = -xDir;
+                yDir = -yDir;
             }
             case NONE -> {
-                offsetX += xOrigin;
-                offsetY += yOrigin;
+                offsetX += xOrigin * xDir;
+                offsetY += yOrigin * yDir;
             }
         }
 
