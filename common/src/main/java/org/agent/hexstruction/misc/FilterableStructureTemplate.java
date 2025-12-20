@@ -261,7 +261,7 @@ public class FilterableStructureTemplate extends StructureTemplate {
         switch (rotationX) {
             case COUNTERCLOCKWISE_90 -> newPos = new BlockPos(x, yOffset - zOffset + z, yOffset + zOffset - y);
             case CLOCKWISE_90 -> newPos = new BlockPos(x, yOffset + zOffset - z, zOffset - yOffset + y);
-            case CLOCKWISE_180 -> newPos = new BlockPos(x, yOffset * 2 - y, z * 2 - z);
+            case CLOCKWISE_180 -> newPos = new BlockPos(x, yOffset * 2 - y, zOffset * 2 - z);
             default -> newPos = has_mirror ? new BlockPos(x, y, z) : newPos;
         }
 
@@ -271,7 +271,7 @@ public class FilterableStructureTemplate extends StructureTemplate {
         switch (rotationY) {
             case COUNTERCLOCKWISE_90 -> newPos = new BlockPos(xOffset - zOffset + z, y, xOffset + zOffset - x);
             case CLOCKWISE_90 -> newPos = new BlockPos(xOffset + zOffset - z, y, zOffset - xOffset + x);
-            case CLOCKWISE_180 -> newPos = new BlockPos(xOffset * 2 - x, y, z * 2 - z);
+            case CLOCKWISE_180 -> newPos = new BlockPos(xOffset * 2 - x, y, zOffset * 2 - z);
             default -> newPos = has_mirror ? new BlockPos(x, y, z) : newPos;
         }
 
