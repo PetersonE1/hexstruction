@@ -23,6 +23,7 @@ import org.agent.hexstruction.misc.ExtendedStructurePlaceSettings
 import org.agent.hexstruction.misc.FilterableStructureTemplate
 import org.agent.hexstruction.tags.HexstructionBlockTags
 import java.util.UUID
+import kotlin.math.floor
 
 // origin of structures is lower north-west
 object OpSaveStructure : SpellAction {
@@ -116,17 +117,9 @@ object OpSaveStructure : SpellAction {
 }
 
 fun getVec3i(vec: Vec3): Vec3i {
-    var x = vec.x.toInt()
-    if (x < 0)
-        x--
-
-    var y = vec.y.toInt()
-    if (y < 0)
-        y--
-
-    var z = vec.z.toInt()
-    if (z < 0)
-        z--
+    val x = floor(vec.x).toInt()
+    val y = floor(vec.y).toInt()
+    val z = floor(vec.z).toInt()
 
     return Vec3i(x, y, z)
 }
