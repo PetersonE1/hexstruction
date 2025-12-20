@@ -72,7 +72,7 @@ object OpSaveStructure : SpellAction {
                 blockState, pos -> blockCheck(blockState, pos, env)
             }
             for (i in bb.minX()..bb.maxX()) {
-                for (j in bb.minY()..bb.maxY()) {
+                for (j in bb.maxY()downTo bb.minY()) {
                     for (k in bb.minZ()..bb.maxZ()) {
                         val pos = BlockPos(i, j, k)
                         val blockState = env.world.getBlockState(pos)
@@ -80,7 +80,7 @@ object OpSaveStructure : SpellAction {
                             if (blockState.hasBlockEntity())
                                 env.world.removeBlockEntity(pos)
                             if (!blockState.isAir)
-                                env.world.setBlock(pos, Blocks.AIR.defaultBlockState(), 19)
+                                env.world.setBlock(pos, Blocks.AIR.defaultBlockState(), 18)
                         }
                     }
                 }
