@@ -293,99 +293,76 @@ public class FilterableStructureTemplate extends StructureTemplate {
 
 
     public static BlockPos getZeroPositionWithTransform(BlockPos pos, Mirror mirror, boolean verticalMirror, Rotation rotationY, Rotation rotationX, Rotation rotationZ, int sizeX, int sizeZ, int sizeY) {
-        --sizeX;
-        --sizeY;
-        --sizeZ;
-        int xOrigin = mirror == Mirror.FRONT_BACK ? sizeX : 0;
-        int yOrigin = verticalMirror ? sizeY : 0;
-        int zOrigin = mirror == Mirror.LEFT_RIGHT ? sizeZ : 0;
-        int sizeXOrNone = sizeX - xOrigin;
-        int sizeYOrNone = sizeY - yOrigin;
-        int sizeZOrNone = sizeZ - zOrigin;
+        --sizeX; --sizeY; --sizeZ;
 
-        int offsetX = 0;
-        int offsetY = 0;
-        int offsetZ = 0;
+        int cornerX = 0, cornerY = 0, cornerZ = 0;
+        int curSizeX = sizeX, curSizeY = sizeY, curSizeZ = sizeZ;
 
-        int xDir = 1;
-        int yDir = 1;
-        int zDir = 1;
+        // Step 1: Mirrors
+        if (mirror == Mirror.FRONT_BACK) cornerX = curSizeX;
+        if (mirror == Mirror.LEFT_RIGHT) cornerZ = curSizeZ;
+        if (verticalMirror) cornerY = curSizeY;
 
+        // Step 2: Rotation around X (YZ plane)
         switch (rotationX) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetY += zOrigin * yDir;
-                offsetZ += sizeYOrNone * zDir;
-                yDir = -yDir;
-                zDir = -zDir;
+                int newY = cornerZ;
+                int newZ = curSizeY - cornerY;
+                cornerY = newY; cornerZ = newZ;
+                int temp = curSizeY; curSizeY = curSizeZ; curSizeZ = temp;
             }
             case CLOCKWISE_90 -> {
-                offsetY += sizeZOrNone * yDir;
-                offsetZ += yOrigin * zDir;
-                yDir = -yDir;
-                zDir = -zDir;
+                int newY = curSizeZ - cornerZ;
+                int newZ = cornerY;
+                cornerY = newY; cornerZ = newZ;
+                int temp = curSizeY; curSizeY = curSizeZ; curSizeZ = temp;
             }
             case CLOCKWISE_180 -> {
-                offsetY += sizeYOrNone * yDir;
-                offsetZ += sizeZOrNone * zDir;
-                yDir = -yDir;
-                zDir = -zDir;
-            }
-            case NONE -> {
-                offsetY += yOrigin * yDir;
-                offsetZ += zOrigin * zDir;
+                cornerY = curSizeY - cornerY;
+                cornerZ = curSizeZ - cornerZ;
             }
         }
 
+        // Step 3: Rotation around Y (XZ plane)
         switch (rotationY) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetX += zOrigin * xDir;
-                offsetZ += sizeXOrNone * zDir;
-                xDir = -xDir;
-                zDir = -zDir;
+                int newX = cornerZ;
+                int newZ = curSizeX - cornerX;
+                cornerX = newX; cornerZ = newZ;
+                int temp = curSizeX; curSizeX = curSizeZ; curSizeZ = temp;
             }
             case CLOCKWISE_90 -> {
-                offsetX += sizeZOrNone * xDir;
-                offsetZ += xOrigin * zDir;
-                xDir = -xDir;
-                zDir = -zDir;
+                int newX = curSizeZ - cornerZ;
+                int newZ = cornerX;
+                cornerX = newX; cornerZ = newZ;
+                int temp = curSizeX; curSizeX = curSizeZ; curSizeZ = temp;
             }
             case CLOCKWISE_180 -> {
-                offsetX += sizeXOrNone * xDir;
-                offsetZ += sizeZOrNone * zDir;
-                xDir = -xDir;
-                zDir = -zDir;
-            }
-            case NONE -> {
-                offsetX += xOrigin * xDir;
-                offsetZ += zOrigin * zDir;
+                cornerX = curSizeX - cornerX;
+                cornerZ = curSizeZ - cornerZ;
             }
         }
 
+        // Step 4: Rotation around Z (XY plane)
         switch (rotationZ) {
             case COUNTERCLOCKWISE_90 -> {
-                offsetX += sizeYOrNone * xDir;
-                offsetY += xOrigin * yDir;
-                xDir = -xDir;
-                yDir = -yDir;
+                int newX = curSizeY - cornerY;
+                int newY = cornerX;
+                cornerX = newX; cornerY = newY;
+                int temp = curSizeX; curSizeX = curSizeY; curSizeY = temp;
             }
             case CLOCKWISE_90 -> {
-                offsetX += yOrigin * xDir;
-                offsetY += sizeXOrNone * yDir;
-                xDir = -xDir;
-                yDir = -yDir;
+                int newX = cornerY;
+                int newY = curSizeX - cornerX;
+                cornerX = newX; cornerY = newY;
+                int temp = curSizeX; curSizeX = curSizeY; curSizeY = temp;
             }
             case CLOCKWISE_180 -> {
-                offsetX += sizeXOrNone * xDir;
-                offsetY += sizeYOrNone * yDir;
-                xDir = -xDir;
-                yDir = -yDir;
-            }
-            case NONE -> {
-                offsetX += xOrigin * xDir;
-                offsetY += yOrigin * yDir;
+                cornerX = curSizeX - cornerX;
+                cornerY = curSizeY - cornerY;
             }
         }
 
-        return pos.offset(offsetX, offsetY, offsetZ);
+        return pos.offset(cornerX, cornerY, cornerZ);
     }
 }
