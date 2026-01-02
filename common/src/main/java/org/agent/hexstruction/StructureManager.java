@@ -63,4 +63,9 @@ public final class StructureManager extends SavedData {
         StructureManager structureManager = GetServerManager(world.getServer());
         return structureManager.structureRegistry.containsKey(uuid);
     }
+
+    public static UUID[] GetAllStructure(Level world) {
+        StructureManager structureManager = GetServerManager(world.getServer());
+        return structureManager.structureRegistry.keySet().toArray(new UUID[0]);
+    }
 }

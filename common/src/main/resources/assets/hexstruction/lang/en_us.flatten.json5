@@ -96,5 +96,20 @@
         }
       }
     }
+  },
+  command: {
+    hexstruction: {
+      saved: {
+        listing: "Saved Structure UUIDs in this world:",
+        hover_copy: "Click to copy UUID",
+        remove: {
+          not_found: "No such UUID stored in this world.",
+          success: "Deleted stored structure from this world."
+        },
+        give: {
+          success: "Given structure stored in a focus."
+        }
+      }
+    }
   }
 }
