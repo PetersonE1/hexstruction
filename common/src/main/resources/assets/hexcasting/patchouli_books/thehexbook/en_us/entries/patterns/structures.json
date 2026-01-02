@@ -1,5 +1,5 @@
 {
-  "name": "hexstruction.page.structures.title",
+  "name": "hexstruction.book.patterns.actions.structures",
   "icon": "minecraft:structure_block",
   "category": "hexcasting:patterns",
   "sortnum": 30,
@@ -7,11 +7,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text":"hexstruction.page.structures.0"
+      "text":"hexstruction.book.patterns.actions.structures.0"
     },
     {
       "type": "patchouli:text",
-      "text":"hexstruction.page.structures.1"
+      "text":"hexstruction.book.patterns.actions.structures.1"
     },
     {
       "type": "hexcasting:pattern",
@@ -19,7 +19,7 @@
       "anchor": "hexstruction:mirror_front_back",
       "input": "structure",
       "output": "structure",
-      "text": "hexstruction.page.mirror_front_back.summary"
+      "text": "hexstruction.book.patterns.actions.structures.mirror_front_back"
     },
     {
       "type": "hexcasting:pattern",
@@ -27,7 +27,15 @@
       "anchor": "hexstruction:mirror_left_right",
       "input": "structure",
       "output": "structure",
-      "text": "hexstruction.page.mirror_left_right.summary"
+      "text": "hexstruction.book.patterns.actions.structures.mirror_left_right"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:mirror_vertical",
+      "anchor": "hexstruction:mirror_vertical",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.mirror_vertical"
     },
     {
       "type": "hexcasting:pattern",
@@ -35,7 +43,7 @@
       "anchor": "hexstruction:rotate_clockwise",
       "input": "structure",
       "output": "structure",
-      "text": "hexstruction.page.rotate_clockwise.summary"
+      "text": "hexstruction.book.patterns.actions.structures.rotate_clockwise"
     },
     {
       "type": "hexcasting:pattern",
@@ -43,7 +51,39 @@
       "anchor": "hexstruction:rotate_counterclockwise",
       "input": "structure",
       "output": "structure",
-      "text": "hexstruction.page.rotate_counterclockwise.summary"
+      "text": "hexstruction.book.patterns.actions.structures.rotate_counterclockwise"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_clockwise_x",
+      "anchor": "hexstruction:rotate_clockwise_x",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_clockwise_x"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_counterclockwise_x",
+      "anchor": "hexstruction:rotate_counterclockwise_x",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_counterclockwise_x"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_clockwise_z",
+      "anchor": "hexstruction:rotate_clockwise_z",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_clockwise_z"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexstruction:rotate_counterclockwise_z",
+      "anchor": "hexstruction:rotate_counterclockwise_z",
+      "input": "structure",
+      "output": "structure",
+      "text": "hexstruction.book.patterns.actions.structures.rotate_counterclockwise_z"
     },
     {
       "type": "hexcasting:pattern",
@@ -51,7 +91,7 @@
       "anchor": "hexstruction:bounding_box",
       "input": "structure",
       "output": "[number]",
-      "text": "hexstruction.page.bounding_box.summary"
+      "text": "hexstruction.book.patterns.actions.structures.bounding_box"
     },
     {
       "type": "hexcasting:pattern",
@@ -59,7 +99,11 @@
       "anchor": "hexstruction:transformations",
       "input": "structure",
       "output": "[number]",
-      "text": "hexstruction.page.transformations.summary"
+      "text": "hexstruction.book.patterns.actions.structures.transformations"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "hexstruction.book.patterns.actions.structures.transformations.0"
     }
   ]
 }

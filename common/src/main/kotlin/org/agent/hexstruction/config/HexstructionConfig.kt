@@ -13,6 +13,7 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer.GlobalData
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.resources.ResourceLocation
 import org.agent.hexstruction.Hexstruction
 import org.agent.hexstruction.networking.msg.MsgSyncConfigS2C
 
@@ -63,24 +64,43 @@ object HexstructionConfig {
 
     @Config(name = "client")
     class ClientConfig : ConfigData {
-        @Tooltip
-        val clientConfigOption: Boolean = true
+        /*@Tooltip
+        val clientConfigOption: Boolean = true*/
     }
 
     @Config(name = "server")
     class ServerConfig : ConfigData {
         @Tooltip
-        var serverConfigOption: Int = 64
+        var structureConsumeWhitelist: List<String> = listOf()
             private set
 
         fun encode(buf: FriendlyByteBuf) {
-            buf.writeInt(serverConfigOption)
+            buf.writeCollection(structureConsumeWhitelist, FriendlyByteBuf::writeUtf)
         }
 
         companion object {
             fun decode(buf: FriendlyByteBuf) = ServerConfig().apply {
-                serverConfigOption = buf.readInt()
+                structureConsumeWhitelist = buf.readList(FriendlyByteBuf::readUtf)
             }
         }
+    }
+
+
+    @JvmStatic
+    fun anyMatch(keys: MutableList<out String>, key: ResourceLocation): Boolean {
+        for (s in keys) {
+            if (ResourceLocation.isValidResourceLocation(s)) {
+                val rl = ResourceLocation(s)
+                if (rl == key) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    @JvmStatic
+    fun noneMatch(keys: MutableList<out String>, key: ResourceLocation): Boolean {
+        return !anyMatch(keys, key)
     }
 }

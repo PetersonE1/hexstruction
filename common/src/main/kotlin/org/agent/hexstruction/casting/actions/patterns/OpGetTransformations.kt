@@ -13,6 +13,12 @@ object OpGetTransformations: ConstMediaAction {
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val settings = args.getStructureSettings(0, argc)
 
-        return listOf(ListIota(listOf(DoubleIota(settings.mirror.ordinal.toDouble()), DoubleIota(settings.rotation.ordinal.toDouble()))))
+        return listOf(ListIota(listOf(
+            DoubleIota(settings.mirror.ordinal.toDouble()),
+            DoubleIota(if (settings.verticalMirror) 1.0 else 0.0),
+            DoubleIota(settings.rotationX.ordinal.toDouble()),
+            DoubleIota(settings.rotation.ordinal.toDouble()),
+            DoubleIota(settings.rotationZ.ordinal.toDouble())
+            )))
     }
 }
