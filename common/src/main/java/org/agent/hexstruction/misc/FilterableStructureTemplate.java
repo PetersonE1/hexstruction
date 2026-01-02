@@ -196,9 +196,9 @@ public class FilterableStructureTemplate extends StructureTemplate {
                     }
                 }
 
-                if (!settings.isIgnoreEntities()) {
+                /*if (!settings.isIgnoreEntities()) {
                     this.placeEntities(serverLevel, offset, settings.getMirror(), settings.getRotation(), settings.getRotationPivot(), boundingBox, settings.shouldFinalizeEntities());
-                }
+                }*/
 
                 return true;
             } else {
