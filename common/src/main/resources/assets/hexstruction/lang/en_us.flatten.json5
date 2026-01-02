@@ -77,5 +77,24 @@
         }
       }
     }
+  },
+  text: {
+    autoconfig: {
+      hexstruction: {
+        title: "HexStruction Config",
+        category: {
+          client: "Client Config",
+          server: "Server Config"
+        },
+        option: {
+          server: {
+            structureConsumeWhitelist: {
+              "": "Devour Structure Block Whitelist",
+              "@Tooltip": "A list of block names to whitelist from the Devour Structure bans (i.e. 'minecraft:budding_amethyst')."
+            }
+          }
+        }
+      }
+    }
   }
 }

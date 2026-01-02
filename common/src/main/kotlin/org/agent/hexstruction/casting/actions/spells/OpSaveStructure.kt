@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.Vec3
 import org.agent.hexstruction.StructureIota
 import org.agent.hexstruction.StructureManager
+import org.agent.hexstruction.config.HexstructionConfig
 import org.agent.hexstruction.misc.ExtendedStructurePlaceSettings
 import org.agent.hexstruction.misc.FilterableStructureTemplate
 import org.agent.hexstruction.tags.HexstructionBlockTags
@@ -101,7 +102,7 @@ object OpSaveStructure : SpellAction {
 
         fun blockCheck(blockState: BlockState, pos: BlockPos, env: CastingEnvironment): Boolean {
             if (blockState.isAir) return false
-            if (blockState.`is`(HexstructionBlockTags.STRUCTURE_SAVE_BANNED)) return false
+            if (blockState.`is`(HexstructionBlockTags.STRUCTURE_SAVE_BANNED) && !HexstructionConfig.server.structureConsumeWhitelist.contains(blockState.block.`arch$registryName`().toString())) return false
             if (blockState.block.defaultDestroyTime() == -1f) return false
             if (blockState.getDestroySpeed(env.world, pos) < 0f) return false
             if (!IXplatAbstractions.INSTANCE.isBreakingAllowed(
